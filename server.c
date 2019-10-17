@@ -180,26 +180,6 @@ int main()
     /* ...other codes to read the received data... */
     while (1)
     {
-	/*
-	if (select(1024, &read_fd_set, NULL, NULL, NULL)< 0)
-	{
-		printf("select failed");
-		exit(1);
-	}
-	*/
-        sin_size = sizeof(struct sockaddr_in);
-    /*
-      int accept(int socket, struct sockaddr *restrict address,
-            socklen_t *restrict address_len);
-    */ 
- /*
-	for (int i = 0; i < FD_SETSIZE; i++)
-	{
-		if (FD_ISSET (i, &read_fd_set))
-		{	
-			if (i == sockfd)
-	{	
-	*/		
 		new_fd = accept(sockfd, (struct sockaddr *)&their_addr,
 					 (socklen_t *)&sin_size);
 		if(new_fd == -1)
@@ -214,19 +194,9 @@ int main()
 		cli->connfd = new_fd;
 		cli->uid = uid++;
 		sprintf(cli->name, "%d", cli->uid);
-
 		queue_add(cli);
-	//	FD_SET(new_fd, &active_fd_set);
-//	}
 		pthread_create(&tid, NULL, &handle_client, (void*)cli);
-		/*int pid;
-		switch (pid = fork())
-		{
-			case -1: printf("fork failed"); exit(1); break;
-			case 0:	handle_client(cli); break;
-			default: continue;
-		}		
-.....other codes.......*/
+
     }
     
     close(sockfd);
